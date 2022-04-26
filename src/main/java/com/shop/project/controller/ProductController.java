@@ -3,6 +3,8 @@ package com.shop.project.controller;
 import com.shop.project.domain.Animal;
 import com.shop.project.domain.Category;
 import com.shop.project.domain.Product;
+import com.shop.project.dto.ProductDto;
+import com.shop.project.mapper.ProductMapper;
 import com.shop.project.service.AnimalService;
 import com.shop.project.service.CategoryService;
 import com.shop.project.service.ImageService;
@@ -37,6 +39,9 @@ public class ProductController
     @Autowired
     AnimalService animalService;
 
+    @Autowired
+    ProductMapper mapper;
+
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
@@ -44,85 +49,55 @@ public class ProductController
         this.productService = productService;
     }
 
-    @RequestMapping
-    public ModelAndView productsList()
+    @GetMapping
+    public ResponseEntity<List<ProductDto>> productsList()
     {
-        ModelAndView modelAndView = new ModelAndView("10_products");
         List<Product> products = productService.findAll();
-        List<Animal> animals = animalService.findAll();
-        modelAndView.addObject("products",products);
-        modelAndView.addObject("animals",animals);
-        return modelAndView;
+        return new ResponseEntity<>(mapper.toDto(products), HttpStatus.OK);
     }
 
-    @GetMapping("/info/{id}")
-    public String showById(@PathVariable String id, Model model)
-    {
-        model.addAttribute("product",
-                productService.findById(Long.valueOf(id)));
-        List<Animal> animals = animalService.findAll();
-        model.addAttribute("animals",animals);
-        return "11_productInfo";
-    }
-
-    @RequestMapping("/delete/{id}")
-    public String deleteProductById(@PathVariable String id)
+    @DeleteMapping
+    public ResponseEntity<Void> deleteProductById(@RequestParam Long id)
     {
         productService.deleteById(Long.valueOf(id));
-        return "redirect:/products";
+        return new ResponseEntity<>(HttpStatus.OK); //NO_CONTENT
     }
 
-    @RequestMapping("/new")
-    public String addProduct(Model model)
+    @PostMapping
+    public ResponseEntity<Void> addProduct(@RequestBody ProductDto product)
     {
-        List<Category> categoriesAll = categoryService.findAll();
-        List<Animal> animalsAll = animalService.findAll();
-
-        model.addAttribute("product", new Product());
-        model.addAttribute("categories", categoriesAll);
-        model.addAttribute("animals", animalsAll);
-        return "12_productForm";
+        Product savedProduct = productService.save(mapper.toEntity(product));
+//        imageService.saveImageFile(Long.valueOf(savedProduct.getId()), file);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping()
-    public String saveOrUpdate(@ModelAttribute Product product,
-                               BindingResult bindingResult,
-                               @RequestParam("imagefile") MultipartFile file)
+    @PutMapping
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto product)
     {
-        if (bindingResult.hasErrors())
-        {
-            return "12_productform";
-        }
+        Product updated_product = productService.update(mapper.toEntity(product));
+        return new ResponseEntity<>(mapper.toDto(updated_product), HttpStatus.OK);
 
-        Product savedProduct = productService.save(product);
-        imageService.saveImageFile(Long.valueOf(savedProduct.getId()), file);
-        return "redirect:/products" ;
     }
 
-
-    @GetMapping("/update/{id}")
-    public String editProduct(@PathVariable String id, Model model)
+    @GetMapping("/animal")
+    public ResponseEntity<List<ProductDto>> listByAnimalId(@PathVariable String id)
     {
-        Product product = productService.findById(Long.valueOf(id));
-        List<Animal> animals = animalService.findAll();
-        List<Category> categories = categoryService.findAll();
-
-        model.addAttribute("animals",animals);
-        model.addAttribute("product", product);
-        model.addAttribute("categories", categories);
-
-        return "12_productForm";
-    }
-
-    @GetMapping("/animals/{id}")
-    public ModelAndView showProductsByAnimal(@PathVariable String id)
-    {
-        ModelAndView modelAndView = new ModelAndView("10_products");
         List<Product> products = productService.findByAnimalId(Long.valueOf(id));
-
-        List<Animal> animals = animalService.findAll();
-        modelAndView.addObject("products",products);
-        modelAndView.addObject("animals",animals);
-        return modelAndView;
+        return new ResponseEntity<>(mapper.toDto(products), HttpStatus.OK);
     }
+
+//    @PostMapping()
+//    public String saveOrUpdate(@ModelAttribute Product product,
+//                               BindingResult bindingResult,
+//                               @RequestParam("imagefile") MultipartFile file)
+//    {
+//        if (bindingResult.hasErrors())
+//        {
+//            return "12_productform";
+//        }
+//
+//        Product savedProduct = productService.save(product);
+//        imageService.saveImageFile(Long.valueOf(savedProduct.getId()), file);
+//        return "redirect:/products" ;
+//    }
 }

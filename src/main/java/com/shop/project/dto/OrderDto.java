@@ -1,16 +1,14 @@
-package com.shop.project.domain;
+package com.shop.project.dto;
 
-import lombok.Data;
+import com.shop.project.domain.Product;
+import com.shop.project.domain.User;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name="ORDERS")
-@Data
-public class OrderP
-{
+//@Data
+public class OrderDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,6 +1,7 @@
 package com.shop.project.service;
 
 import com.shop.project.domain.Product;
+import com.shop.project.exception.EntityNotFoundException;
 import com.shop.project.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,13 @@ public class ProductServiceImpl implements ProductService
     @Override
     public List<Product> findAll()
     {
-        List<Product> products = new LinkedList<>();
-        productRepository.findAll().iterator().forEachRemaining(products::add);
+        List<Product> products = productRepository.findAll();
         return products;
+//        List<Product> final_list;
+//        for(int i = 0; i < products.size(); ++i) {
+//            final_list[i]. = products[i];
+////            products[
+//        }
     }
 
     @Override
@@ -38,22 +43,6 @@ public class ProductServiceImpl implements ProductService
         return productOptional.get();
     }
 
- /*   @Override
-    public Product save(Product product)
-    {
-        Optional<Product> productOptional = productRepository.findById(product.getId());
-        Product savedProduct;
-        if (!productOptional.isPresent())
-        {
-            savedProduct = productRepository.save(product);
-        }
-        else
-        {
-            savedProduct = productRepository.editProduct(productOptional.get().getId(), product.getName(), product.getPrice(), product.getQuantity(), product.getProductInfo().getImage());
-        }
-
-        return savedProduct;
-    }*/
      @Override
      public Product save(Product product)
      {
@@ -80,5 +69,14 @@ public class ProductServiceImpl implements ProductService
     {
         List<Product> products = productRepository.findByAnimalId(id);
         return products;
+    }
+
+    @Override
+    public Product update(Product product) {
+        if (productRepository.existsById(product.getId())) {
+            return productRepository.save(product);
+        } else {
+            throw new EntityNotFoundException(String.format("There is no product with id=%s in the database!", product.getId().toString()));
+        }
     }
 }

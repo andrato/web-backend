@@ -27,7 +27,7 @@ public class Product
     @ManyToOne
     private Animal animal;
 
-    @ManyToMany(mappedBy = "products", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(mappedBy = "products")
     private List<OrderP> orders;
 
 }

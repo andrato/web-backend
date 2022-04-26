@@ -54,13 +54,13 @@ public class AnimalController
 //
 //        return "10_products_animal";
 //    }
-
-/*    @GetMapping("/product/info/{id}")
-    public String showById(@PathVariable String id, Model model)
-    {
-        model.addAttribute("product", productService.findById(Long.valueOf(id)));
-        List<Animal> animals = animalService.findAll();
-        model.addAttribute("animals",animals);
-        return "10_products_animal";
-    }*/
+//
+//    @GetMapping("/product/info/{id}")
+//    public String showById(@PathVariable String id, Model model)
+//    {
+//        model.addAttribute("product", productService.findById(Long.valueOf(id)));
+//        List<Animal> animals = animalService.findAll();
+//        model.addAttribute("animals",animals);
+//        return "10_products_animal";
+//    }
 }

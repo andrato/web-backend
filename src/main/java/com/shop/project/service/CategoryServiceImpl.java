@@ -1,6 +1,7 @@
 package com.shop.project.service;
 
 import com.shop.project.domain.Category;
+import com.shop.project.exception.EntityNotFoundException;
 import com.shop.project.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,7 @@ public class CategoryServiceImpl implements CategoryService
     @Override
     public List<Category> findAll()
     {
-        List<Category> categories = new LinkedList<>();
-        categoryRepository.findAll().iterator().forEachRemaining(categories::add);
-        return categories;
+        return categoryRepository.findAll();
     }
 
     @Override
@@ -57,5 +56,14 @@ public class CategoryServiceImpl implements CategoryService
 
         categoryRepository.save(category);
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Category update(Category category) {
+        if (categoryRepository.existsById(category.getId())) {
+            return categoryRepository.save(category);
+        } else {
+            throw new EntityNotFoundException(String.format("There is no category with id=%s in the database!", category.getId().toString()));
+        }
     }
 }

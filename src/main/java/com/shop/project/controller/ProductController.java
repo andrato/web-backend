@@ -3,8 +3,6 @@ package com.shop.project.controller;
 import com.shop.project.domain.Animal;
 import com.shop.project.domain.Category;
 import com.shop.project.domain.Product;
-import com.shop.project.dto.ProductDto;
-import com.shop.project.mapper.ProductMapper;
 import com.shop.project.service.AnimalService;
 import com.shop.project.service.CategoryService;
 import com.shop.project.service.ImageService;
@@ -39,9 +37,6 @@ public class ProductController
     @Autowired
     AnimalService animalService;
 
-    @Autowired
-    ProductMapper mapper;
-
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
@@ -50,10 +45,10 @@ public class ProductController
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> productsList()
+    public ResponseEntity<List<Product>> productsList()
     {
         List<Product> products = productService.findAll();
-        return new ResponseEntity<>(mapper.toDto(products), HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @DeleteMapping
@@ -64,26 +59,32 @@ public class ProductController
     }
 
     @PostMapping
-    public ResponseEntity<Void> addProduct(@RequestBody ProductDto product)
+    public ResponseEntity<Void> addProduct(@RequestBody Product product)
     {
-        Product savedProduct = productService.save(mapper.toEntity(product));
+        Product savedProduct = productService.save(product);
 //        imageService.saveImageFile(Long.valueOf(savedProduct.getId()), file);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto product)
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product)
     {
-        Product updated_product = productService.update(mapper.toEntity(product));
-        return new ResponseEntity<>(mapper.toDto(updated_product), HttpStatus.OK);
-
+        Product updated_product = productService.update(product);
+        return new ResponseEntity<>(updated_product, HttpStatus.OK);
     }
 
     @GetMapping("/animal")
-    public ResponseEntity<List<ProductDto>> listByAnimalId(@PathVariable String id)
+    public ResponseEntity<List<Product>> listByAnimalId(@PathVariable String id)
     {
         List<Product> products = productService.findByAnimalId(Long.valueOf(id));
-        return new ResponseEntity<>(mapper.toDto(products), HttpStatus.OK);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<Product>> listByCategoryId(@PathVariable String id)
+    {
+        List<Product> products = productService.findByCategoryId(Long.valueOf(id));
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
 //    @PostMapping()

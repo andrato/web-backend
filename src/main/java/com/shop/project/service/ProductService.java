@@ -12,4 +12,6 @@ public interface ProductService
     Product update(Product product);
     void deleteById(Long id);
     List<Product> findByAnimalId(Long id);
+    List<Product> findByCategoryId(Long id);
+    List<Product> findByAnimalCategory(Long animalId, Long categoryId);
 }

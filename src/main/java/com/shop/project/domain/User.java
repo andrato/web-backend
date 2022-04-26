@@ -1,6 +1,8 @@
 package com.shop.project.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,7 +10,8 @@ import java.util.Set;
 
 @Entity
 @Table(name="USERS")
-@Data
+@Setter
+@Getter
 public class User
 {
     @Id
@@ -25,7 +28,6 @@ public class User
     private String      address;
     private String      city;;
     private String      country;
-
 
 
     @ManyToMany(cascade = CascadeType.ALL)

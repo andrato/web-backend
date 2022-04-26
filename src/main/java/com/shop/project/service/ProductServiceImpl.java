@@ -21,31 +21,22 @@ public class ProductServiceImpl implements ProductService
     }
 
     @Override
-    public List<Product> findAll()
-    {
+    public List<Product> findAll() {
         List<Product> products = productRepository.findAll();
         return products;
-//        List<Product> final_list;
-//        for(int i = 0; i < products.size(); ++i) {
-//            final_list[i]. = products[i];
-////            products[
-//        }
     }
 
     @Override
-    public Product findById(Long id)
-    {
+    public Product findById(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
-        if (!productOptional.isPresent())
-        {
+        if (!productOptional.isPresent()) {
             throw new RuntimeException("Product not found!");
         }
         return productOptional.get();
     }
 
      @Override
-     public Product save(Product product)
-     {
+     public Product save(Product product) {
          Product savedProduct = productRepository.save(product);
          return savedProduct;
      }
@@ -65,9 +56,20 @@ public class ProductServiceImpl implements ProductService
     }
 
     @Override
-    public List<Product> findByAnimalId(Long id)
-    {
+    public List<Product> findByAnimalId(Long id) {
         List<Product> products = productRepository.findByAnimalId(id);
+        return products;
+    }
+
+    @Override
+    public List<Product> findByCategoryId(Long id) {
+        List<Product> products = productRepository.findByCategoryId(id);
+        return products;
+    }
+
+    @Override
+    public List<Product> findByAnimalCategory(Long animalId, Long categoryId) {
+        List<Product> products = productRepository.findByAnimalCategory(animalId, categoryId);
         return products;
     }
 
@@ -79,4 +81,5 @@ public class ProductServiceImpl implements ProductService
             throw new EntityNotFoundException(String.format("There is no product with id=%s in the database!", product.getId().toString()));
         }
     }
+
 }

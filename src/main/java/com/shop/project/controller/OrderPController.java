@@ -1,12 +1,14 @@
 package com.shop.project.controller;
 
-import com.shop.project.domain.Animal;
-import com.shop.project.domain.User;
+import com.shop.project.domain.*;
 import com.shop.project.service.AnimalService;
 import com.shop.project.service.OrderPService;
 import com.shop.project.service.ProductService;
 import com.shop.project.service.UserService;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@Controller
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping("/orders")
 public class OrderPController
 {
     @Autowired
@@ -24,7 +28,6 @@ public class OrderPController
     OrderPService orderPService;
 
     AnimalService  animalService;
-    ProductService productService;
 
     @Autowired
     public OrderPController(OrderPService orderPService)
@@ -32,58 +35,31 @@ public class OrderPController
         this.orderPService = orderPService;
     }
 
-    @GetMapping("/orders/{userId}")
-    public String showOrdersFromUser(@PathVariable String userId, Model model)
+    @RequestMapping
+    public ResponseEntity<List<OrderP>> findAll()
     {
-        model.addAttribute("orders", orderPService.findByUser(Long.valueOf(userId)));
-        List<Animal> animals = animalService.findAll();
-        model.addAttribute("animals",animals);
-        return "userOrders";
+        List<OrderP> orders = orderPService.findAll();
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @GetMapping("/orders")
-    public String showOrdersFromUser(@PathVariable User user, Model model)
+    @GetMapping
+    public ResponseEntity<List<OrderP>> showOrdersFromUser(@RequestParam Long id)
     {
-        model.addAttribute("orders", orderPService.findByUser(Long.valueOf(user.getId())));
-        return "userOrders";
+        List<OrderP> orders = orderPService.findByUser(id);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @RequestMapping("/order/list")
-    public ModelAndView usersList()
+    @PostMapping
+    public ResponseEntity<Void> newOrder (@RequestBody OrderP order)
     {
-        ModelAndView modelAndView = new ModelAndView("orders");
-        List<User> users = userService.findAll();
-        modelAndView.addObject("users",users);
-        return modelAndView;
+        OrderP orderSaved = orderPService.save(order);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/order/{id}")
-    public String showById(@PathVariable String id, Model model)
+    @DeleteMapping
+    public ResponseEntity<Void> deleteByOrderId(@RequestParam Long id)
     {
-        model.addAttribute("participant",
-                userService.findById(Long.valueOf(id)));
-        return "userInfo";
-    }
-
-    @RequestMapping("/order/new")
-    public String newParticipant(Model model)
-    {
-        model.addAttribute("user", new User());
-        return "userForm";
-    }
-
-//    @RequestMapping("/user/update/{id}")
-//    public String updateParticipant(@PathVariable String id, Model model)
-//    {
-//        model.addAttribute("participant",
-//                userService.findById(Long.valueOf(id)));
-//        return "userForm";
-//    }
-
-    @PostMapping("/order")
-    public String saveOrUpdate(@ModelAttribute User user)
-    {
-        User savedUser = userService.save(user);
-        return "redirect:/user/info/" + savedUser.getId();
+        orderPService.deleteById(Long.valueOf(id));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

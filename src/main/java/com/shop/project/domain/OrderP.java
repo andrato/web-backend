@@ -1,6 +1,8 @@
 package com.shop.project.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -8,7 +10,8 @@ import java.util.List;
 
 @Entity
 @Table(name="ORDERS")
-@Data
+@Setter
+@Getter
 public class OrderP
 {
     @Id
@@ -22,7 +25,7 @@ public class OrderP
     @ManyToOne
     private User user;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany
     @JoinTable(name = "product_order",
             joinColumns         =@JoinColumn(name="order_id",referencedColumnName = "id"),
             inverseJoinColumns  =@JoinColumn(name="product_id",referencedColumnName="id"))

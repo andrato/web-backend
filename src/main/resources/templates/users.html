@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css" />
+        <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="full-width" style="background-color:lightgray;">
+            <h3 class="container">Users</h3>
+        </div>
+        <div class="container">
+            <table class="table table-hover ">
+                <thead class="thead-inverse">
+                <tr>
+                    <th>ID</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Admin</th>
+                    <th>Country</th>
+                    <th>Info</th>
+                    <th>Update</th>
+    <!--                <th>Orders</th>-->
+
+                </tr>
+                </thead>
+
+                <tr th:each="user, stat : ${users}"
+                    th:class="${stat.odd}? 'table-light':'table-dark'">
+                    <td th:text="${user.id}">1</td>
+                    <td th:text="${user.firstName}">FN</td>
+                    <td th:text="${user.lastName}">LN</td>
+                    <td th:text="${user.isAdmin() == false ? 'NO':'YES'}">LN</td>
+                    <td th:text="${user.country}">country</td>
+                    <td><a href="#" th:href="@{'/user/info/' + ${user.id}}">Info</a></td>
+                    <td><a href="#" th:href="@{'/user/update/' + ${user.id}}">Update</a></td>
+    <!--                <td><a href="#" th:href="@{'/orders/' + ${user.id}}">Orders</a></td>-->
+                </tr>
+            </table>
+            <div class="col-md-3">
+                <button class="btn btn-primary" th:onclick="|location.href = '/user/new'|">Add user</button>
+            </div>
+        </div>
+    </body>
+</html>

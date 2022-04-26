@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Log in</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse" style="height: 50pt; margin: 0; border-radius: 0px;">
+        <div class="container-fluid" style="width: 80%;
+                                            height: 100%;
+                                            margin: auto;
+                                            padding: 10px;
+                                            position: relative;">
+            <div style="position: absolute;
+                          top: 50%;
+                          -ms-transform: translateY(-50%);
+                          transform: translateY(-50%);">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/product/list" style="font-size: xx-large; color: white; ">YourPet</a>
+                </div>
+                <ul class="nav navbar-nav" th:each="animal, stat : ${animals}">
+                    <li><a th:href="@{'/product/animals/' + ${animal.id}}" th:text="${animal.name}" style="width: 75pt; font-size:large ;text-align: center;">Home</a></li>
+                </ul>
+            </div>
+
+            <div style=" width: 100%;
+                  display: inline-block;
+                  height: 100%;
+                  vertical-align: middle;">
+
+                <a href="/login">
+                    <span class="glyphicon glyphicon-user" style="color: white;
+                                                                  display: inline-block;
+                                                                  float: right; font-size: x-large;
+                                                                  margin-top: 0.6%"></span>
+                </a>
+                <a href="/login">
+                    <span class="glyphicon glyphicon-shopping-cart" style="color: white;
+                                                                  display: inline-block;
+                                                                  float: right; font-size: x-large;
+                                                                  margin-top: 0.6%; margin-right: 3%;"></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div style="   width: 80%;
+                    margin: auto;
+                    background: white;
+                    padding: 10px;">
+        <div class="container-fluid">
+            <div class="row col-lg-4 col-lg-offset-4" style="margin-top: 80px;background-color:#fff;padding:20px;border:solid 1px #ddd;">
+                <!-- <img th:src="@{/images/login.jpg}" class="img-responsive center-block" width="300" height="300" alt="Logo" /> -->
+                <form th:action="@{/login}" method="POST" class="form-signin">
+                    <h3 class="form-signin-heading" th:text="Login"></h3>
+                    <br /> <input type="text" id="email" name="email" th:placeholder="Email" class="form-control" /> <br /> <input type="password" th:placeholder="Password" id="password" name="password" class="form-control" /> <br />
+
+                    <div align="center" th:if="${param.error}">
+                        <p style="font-size: 20; color: #FF1C19;">Email or Password is invalid.</p>
+                    </div>
+                    <div style="width: 100%;
+                                  display: inline-block;
+                                  height: 100%;
+                                  vertical-align: middle;">
+                        <button class="btn btn-lg btn-primary" name="Submit" value="Login" type="Submit" th:text="Login" style="margin-right:10px;"></button>
+                        <a href="/recover-password">Forgot password?</a>
+                        <div style="right:0; display: inline-block; float:right; margin-top: 4.2%;"><a href="/register">Register</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

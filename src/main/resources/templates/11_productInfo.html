@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<body>
+<nav class="navbar navbar-inverse" style="height: 50pt; margin: 0; border-radius: 0px;">
+    <div class="container-fluid" style="width: 80%;
+                                            height: 100%;
+                                            margin: auto;
+                                            padding: 10px;
+                                            position: relative;">
+        <div style="position: absolute;
+                          top: 50%;
+                          -ms-transform: translateY(-50%);
+                          transform: translateY(-50%);">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/product/list" style="font-size: xx-large; color: white; ">YourPet</a>
+            </div>
+            <ul class="nav navbar-nav" th:each="animal, stat : ${animals}">
+                <li><a th:href="@{'/product/animals/' + ${animal.id}}" th:text="${animal.name}" style="width: 75pt; font-size:large ;text-align: center;">Home</a></li>
+            </ul>
+        </div>
+
+        <div style=" width: 100%;
+                  display: inline-block;
+                  height: 100%;
+                  vertical-align: middle;">
+
+            <a href="/login">
+                    <span class="glyphicon glyphicon-user" style="color: white;
+                                                                  display: inline-block;
+                                                                  float: right; font-size: x-large;
+                                                                  margin-top: 0.6%"></span>
+            </a>
+            <a href="/login">
+                    <span class="glyphicon glyphicon-shopping-cart" style="color: white;
+                                                                  display: inline-block;
+                                                                  float: right; font-size: x-large;
+                                                                  margin-top: 0.6%; margin-right: 3%;"></span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="full-width" style="background-color:lightgray;">
+    <h3 class="container" th:text="${product.name}">Product</h3>
+</div>
+<div class="container" style="margin-top: 50px">
+    <div style="display: flex;">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="pannel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-body">
+                        <div class = "row">
+                            <div class="col-md-6"> <img th:src="@{'/product/getimage/' + ${product.id}}" width="350" height="350"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container" style="display:inline-block;">
+            <div id="info" style="width: 500px;float: right;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>Name:</p>
+                    </div>
+
+                    <div class="col-md-10">
+                        <p th:text="${product.name != null ?(product.name):'name'}">name</p>
+                    </div>
+                </div> <br>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>Category:</p>
+                    </div>
+
+                    <div class="col-md-3">
+                        <p th:text="${product.category.name}">name</p>
+                    </div>
+                </div><br>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>Price:</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p th:text="${product.getPrice() != null ? product.getPrice():' '}">
+                            price
+                        </p>
+                    </div>
+                </div> <br>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <p>Quantity:</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p th:text="${product.getQuantity() != null ? product.getQuantity():' '}">
+                            quantity
+                        </p>
+                    </div>
+                </div><br>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h5 class="panel-title">Product details</h5>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--                        <p th:text="${product.productInfo != null ? product.productInfo.description:''}">-->
+                        <!--                            Info-->
+                        <!--                        </p>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--    <head>-->
+<!--        <meta charset="UTF-8">-->
+<!--        <title>Product Info</title>-->
+<!--        <link rel="stylesheet" href="/webjars/bootstrap/4.5.0/css/bootstrap.min.css"/>-->
+<!--&lt;!&ndash;        <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>&ndash;&gt;-->
+<!--    <body>-->
+<!--        <div class="full-width" style="background-color:lightgray;">-->
+<!--            <h3 class="container" th:text="${product.name}">Product</h3>-->
+<!--        </div>-->
+
+<!--        <div class="pannel-group">-->
+<!--            <div class="panel panel-primary">-->
+<!--                <div class="panel-heading" style="background-color:lightgray;">-->
+<!--                    <h1 class="panel-title" th:text="${product.name}">Product</h1>-->
+<!--                </div>-->
+<!--                <div class="panel-body">-->
+<!--                    <div class = "row">-->
+<!--                        <div class="col-md-6"> <img th:src="@{'/product/getimage/' + ${product.id}}" width="200" height="200"> </div>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--        -->
+<!--        <div class="container" style="margin-top: 50px">-->
+<!--            <div style="display: flex;">-->
+<!--                <div class="pannel-group">-->
+<!--                    <div class="panel panel-primary">-->
+<!--&lt;!&ndash;                <div id="image">&ndash;&gt;-->
+<!--                        <div class="panel-body">-->
+<!--                            <div class = "row">-->
+<!--                                <div class="col-md-6"> <img th:src="@{'/product/getimage/' + ${product.id}}" width="300" height="300"> </div>-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                </div>-->
+
+
+<!--                <div class="container" style="display:inline-block;">-->
+<!--                    <div id="info" style="width: 500px;float: right;">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2">-->
+<!--                                <p>Name:</p>-->
+<!--                            </div>-->
+
+<!--                            <div class="col-md-10">-->
+<!--                                <p th:text="${product.name != null ?(product.name):'name'}">name</p>-->
+<!--                            </div>-->
+<!--                        </div> <br>-->
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2">-->
+<!--                                <p>Category:</p>-->
+<!--                            </div>-->
+
+<!--                            <div class="col-md-3">-->
+<!--                                <p th:text="${product.getCategory().getName()}">name</p>-->
+<!--                            </div>-->
+<!--                        </div><br>-->
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2">-->
+<!--                                <p5>Price:</p5>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-3">-->
+<!--                                <p th:text="${product.getPrice() != null ? product.getPrice():' '}">-->
+<!--                                    price-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div> <br>-->
+
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-2">-->
+<!--                                <p5>Quantity:</p5>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-3">-->
+<!--                                <p th:text="${product.getQuantity() != null ? product.getQuantity():' '}">-->
+<!--                                    quantity-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div><br>-->
+<!--                    </div>-->
+<!--                </div><br>-->
+<!--            </div>-->
+
+<!--            <br><br>-->
+<!--            <div class="container">-->
+<!--                <div class="panel panel-primary">-->
+<!--                    <div class="panel-heading">-->
+<!--                        <h5 class="panel-title">Product details</h5>-->
+<!--                    </div>-->
+<!--                    <div class="panel-body">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-12">-->
+<!--                                <p th:text="${product.productInfo != null ? product.productInfo.description:''}">-->
+<!--                                    Info-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </body>-->
+<!--</html>-->
+
+
+

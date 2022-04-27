@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -22,5 +24,6 @@ public class Category
 
     @JsonManagedReference(value="category_products")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
-    private List<Product> products;
+    private Set<Product> products = new HashSet<>();
+
 }

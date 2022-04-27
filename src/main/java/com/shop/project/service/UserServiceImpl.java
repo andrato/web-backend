@@ -32,13 +32,10 @@ public class UserServiceImpl implements UserService
     public UserServiceImpl(UserRepository userRepository) { this.userRepository = userRepository; }
 
     @Override
-    public User findById(Long l)
-    {
-        Optional<User> userOptional = userRepository.findById(l);
-        if (!userOptional.isPresent())
-        {
+    public User findById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (!userOptional.isPresent()) {
             throw new RuntimeException("User not found!");
-            //throw new userOptional("participant " + l + " not found");
         }
         return userOptional.get();
     }
@@ -78,7 +75,6 @@ public class UserServiceImpl implements UserService
         if (!userOptional.isPresent())
         {
             throw new RuntimeException("User not found!");
-            //throw new userOptional("participant " + l + " not found");
         }
         return userOptional.get();
     }

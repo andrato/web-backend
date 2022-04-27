@@ -2,12 +2,15 @@ package com.shop.project.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -36,7 +39,9 @@ public class Product
     @ManyToOne
     private Animal animal;
 
+    @JsonBackReference(value="orders")
     @ManyToMany(mappedBy = "products", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<OrderP> orders;
+    private Set<OrderP> orders = new HashSet<>();
+
 
 }

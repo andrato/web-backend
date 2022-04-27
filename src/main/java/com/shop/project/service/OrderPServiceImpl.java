@@ -49,7 +49,7 @@ public class OrderPServiceImpl implements OrderPService
     public void deleteById(Long id) {
         Optional<OrderP> orderPOptional = orderRepository.findById(id);
         if (!orderPOptional.isPresent()) {
-            throw new RuntimeException("Product not found!");
+            throw new RuntimeException("Order not found!");
         }
         OrderP orderP = orderPOptional.get();
 
@@ -60,5 +60,18 @@ public class OrderPServiceImpl implements OrderPService
     @Override
     public Optional<OrderP> getUnfinishOrder() {
         return orderRepository.getUnfinishOrder();
+    }
+
+    @Override
+    public void finishOrder(Long id) {
+        Optional<OrderP> orderPOptional = orderRepository.findById(id);
+        if (!orderPOptional.isPresent()) {
+            throw new RuntimeException("Order not found!");
+        }
+
+        // update order
+        OrderP order = orderPOptional.get();
+        order.setDone(true);
+        orderRepository.save(order);
     }
 }

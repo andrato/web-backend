@@ -14,4 +14,5 @@ public interface OrderPService
     OrderP update(OrderP order);
     void deleteById(Long id);
     Optional<OrderP> getUnfinishOrder();
+    void finishOrder(Long id);
 }

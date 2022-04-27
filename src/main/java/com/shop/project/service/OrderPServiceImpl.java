@@ -58,8 +58,8 @@ public class OrderPServiceImpl implements OrderPService
     }
 
     @Override
-    public Optional<OrderP> getUnfinishOrder() {
-        return orderRepository.getUnfinishOrder();
+    public Optional<OrderP> getUnfinishOrder(Long id) {
+        return orderRepository.getUnfinishOrder(id);
     }
 
     @Override

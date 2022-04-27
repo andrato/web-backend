@@ -45,7 +45,7 @@ public class User
     @Max(50)
     private String      password;
 
-    @Max(30)
+    @Min(4)
     private Long        phoneNumber;
 
     @Max(100)
@@ -68,4 +68,33 @@ public class User
     @JsonManagedReference(value="user_order")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private Set<OrderP> orders = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String username, String email, String password, String city, String country, LocalDate birth_date, String address, Long phone_number) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.city = city;
+        this.country = country;
+        this.birth_date = birth_date;
+        this.phoneNumber = phone_number;
+    }
+
+    public User(String username, String email, String password, String city, String country, LocalDate birth_date) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.city = city;
+        this.country = country;
+        this.birth_date = birth_date;
+    }
 }

@@ -11,6 +11,7 @@ import com.shop.project.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -60,6 +61,7 @@ public class ProductController
     }
 
     @DeleteMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteProductById(@RequestParam Long id)
     {
         productService.deleteById(Long.valueOf(id));
@@ -67,6 +69,7 @@ public class ProductController
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> addProduct(@RequestBody Product product)
     {
         Product savedProduct = productService.save(product);
@@ -75,6 +78,7 @@ public class ProductController
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@RequestBody Product product)
     {
         Product updated_product = productService.update(product);

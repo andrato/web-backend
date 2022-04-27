@@ -13,6 +13,6 @@ public interface OrderPRepository extends JpaRepository<OrderP, Long>
     @Query("select o from OrderP o where o.user.id = :id")
     List<OrderP> findByUser(@Param("id") Long id);
 
-    @Query("select o from OrderP o where o.done = false")
-    Optional<OrderP> getUnfinishOrder();
+    @Query("select o from OrderP o where o.done = false and o.user.id = :id")
+    Optional<OrderP> getUnfinishOrder(@Param("id") Long id);
 }

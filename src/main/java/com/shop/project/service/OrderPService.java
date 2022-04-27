@@ -13,6 +13,6 @@ public interface OrderPService
     OrderP save(OrderP order);
     OrderP update(OrderP order);
     void deleteById(Long id);
-    Optional<OrderP> getUnfinishOrder();
+    Optional<OrderP> getUnfinishOrder(Long id);
     void finishOrder(Long id);
 }

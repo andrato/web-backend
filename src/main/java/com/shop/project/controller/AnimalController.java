@@ -43,26 +43,4 @@ public class AnimalController
         List<Animal> animals = animalService.findAll();
         return new ResponseEntity<>(animals, HttpStatus.OK);
     }
-
-//    @GetMapping("/animal/{id}")
-//    public String productList(@PathVariable String id, Model model)
-//    {
-//        //logger.trace("id = " + id + "\n");
-//        Animal animal               = animalService.findById(Long.valueOf(id));
-//        List<Animal> animals        = animalService.findAll();
-//        List<Product> products      = productService.findByAnimalId(Long.valueOf(id));
-//        model.addAttribute("products", products);
-//        model.addAttribute("animals", animals);
-//
-//        return "10_products_animal";
-//    }
-//
-//    @GetMapping("/product/info/{id}")
-//    public String showById(@PathVariable String id, Model model)
-//    {
-//        model.addAttribute("product", productService.findById(Long.valueOf(id)));
-//        List<Animal> animals = animalService.findAll();
-//        model.addAttribute("animals",animals);
-//        return "10_products_animal";
-//    }
 }

@@ -1,5 +1,6 @@
 package com.shop.project.service;
 
+import com.shop.project.domain.ERole;
 import com.shop.project.domain.Role;
 import com.shop.project.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class RoleServiceImpl implements RoleService
     }
 
     @Override
-    public Role findByName(String roleName)
+    public Optional<Role> findByName(ERole roleName)
     {
         return roleRepository.findByName(roleName);
     }

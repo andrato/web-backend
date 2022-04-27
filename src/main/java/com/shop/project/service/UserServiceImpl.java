@@ -13,20 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class UserServiceImpl implements UserService
-//public class UserServiceImpl implements UserService, UserDetailsService
-{
+public class UserServiceImpl implements UserService {
     UserRepository userRepository;
-
-//    @Override
-//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException
-//    {
-//        User user = userRepository.findByUsername(s);
-//
-//        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-//        user.getRoles().forEach(role -> {authorities.add(new SimpleGrantedAuthority(role.getRole()));});
-//        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
-//    }
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository) { this.userRepository = userRepository; }
@@ -61,16 +49,8 @@ public class UserServiceImpl implements UserService
         return users;
     }
 
-
     @Override
-    public void deleteById(Long id)
-    {
-
-    }
-
-    @Override
-    public User findByEmail(String email)
-    {
+    public User findByEmail(String email) {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (!userOptional.isPresent())
         {
@@ -78,4 +58,14 @@ public class UserServiceImpl implements UserService
         }
         return userOptional.get();
     }
+
+    @Override
+    public void updateUser(User user) {
+        Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        if (!userOptional.isPresent()) {
+            throw new BadRequestException("Nothing to update! User does not exist");
+        }
+        userRepository.save(user);
+    }
+
 }

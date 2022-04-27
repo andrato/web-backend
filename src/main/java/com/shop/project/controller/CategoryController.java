@@ -5,6 +5,7 @@ import com.shop.project.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> addCategory(@RequestBody Category category)
     {
         Category savedProduct = categoryService.save(category);
@@ -44,6 +46,7 @@ public class CategoryController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Category> updateCategory(@RequestBody Category category)
     {
         Category updated_cat = categoryService.update(category);

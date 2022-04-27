@@ -1,6 +1,7 @@
 package com.shop.project.controller;
 
 import com.shop.project.domain.*;
+import com.shop.project.payload.requests.CartRequest;
 import com.shop.project.service.AnimalService;
 import com.shop.project.service.OrderPService;
 import com.shop.project.service.ProductService;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
@@ -59,6 +61,19 @@ public class OrderPController
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/user")
+    public ResponseEntity<OrderP> getUnfinishedOrder (@RequestParam Long id)
+    {
+        Optional<OrderP> order = orderPService.getUnfinishOrder(id);
+        if(order.isPresent()) {
+            logger.info("suntem aici");
+            OrderP existingOrder = order.get();
+            return new ResponseEntity<>(existingOrder, HttpStatus.OK);
+        }
+
+        logger.info("nu suntem bine");
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
 
     @DeleteMapping
     public ResponseEntity<Void> deleteByOrderId(@RequestParam Long id)
@@ -67,26 +82,28 @@ public class OrderPController
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("{id}")
+    @PostMapping("{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Void> finishOrder(@PathVariable Long id)
     {
         orderPService.finishOrder(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/products/{productId}")
-    public ResponseEntity<Void> addToOrder(@PathVariable Long productId)
+    @PostMapping("/products")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Void> addToOrder(@RequestBody CartRequest cartRequest)
     {
         logger.info("start");
-        User user = userService.findByEmail("andratomi94@gmail.com");
-        Product product = productService.findById(productId);
+        User user = userService.findByEmail(cartRequest.getEmail());
+        Product product = productService.findById(cartRequest.getProductId());
 
         if(user.getEmail() == null || product.getName() == null) {
             logger.info("nu e bine");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Optional<OrderP> order = orderPService.getUnfinishOrder();
+        Optional<OrderP> order = orderPService.getUnfinishOrder(user.getId());
         if(!order.isPresent()) {
             // create order
             OrderP orderNew = new OrderP();

@@ -22,16 +22,17 @@ public class Product
     private int     price;
     private Integer quantity;
 
+    @JsonBackReference(value="product_info")
     @OneToOne (mappedBy = "product",
                cascade = CascadeType.ALL,
                orphanRemoval = true)
     private ProductInfo productInfo;
 
-    @JsonBackReference
+    @JsonBackReference(value="category_products")
     @ManyToOne (fetch = FetchType.LAZY)
     private Category category;
 
-    @JsonBackReference
+    @JsonBackReference(value="animal_products")
     @ManyToOne
     private Animal animal;
 

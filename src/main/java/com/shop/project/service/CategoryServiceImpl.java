@@ -1,12 +1,12 @@
 package com.shop.project.service;
 
 import com.shop.project.domain.Category;
-import com.shop.project.exception.EntityNotFoundException;
+import com.shop.project.exceptions.EntityNotFoundException;
+import com.shop.project.exceptions.NotFoundException;
 import com.shop.project.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService
         if (categoryRepository.existsById(category.getId())) {
             return categoryRepository.save(category);
         } else {
-            throw new EntityNotFoundException(String.format("There is no category with id=%s in the database!", category.getId().toString()));
+            throw new NotFoundException(String.format("There is no category with id=%s in the database!", category.getId().toString()));
         }
     }
 }

@@ -1,13 +1,11 @@
 package com.shop.project.service;
 
 import com.shop.project.domain.OrderP;
-import com.shop.project.domain.Product;
-import com.shop.project.exception.EntityNotFoundException;
+import com.shop.project.exceptions.EntityNotFoundException;
 import com.shop.project.repository.OrderPRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,16 +46,19 @@ public class OrderPServiceImpl implements OrderPService
     }
 
     @Override
-    public void deleteById(Long id)
-    {
+    public void deleteById(Long id) {
         Optional<OrderP> orderPOptional = orderRepository.findById(id);
-        if (!orderPOptional.isPresent())
-        {
+        if (!orderPOptional.isPresent()) {
             throw new RuntimeException("Product not found!");
         }
         OrderP orderP = orderPOptional.get();
 
         orderRepository.save(orderP);
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<OrderP> getUnfinishOrder() {
+        return orderRepository.getUnfinishOrder();
     }
 }

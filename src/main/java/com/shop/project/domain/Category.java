@@ -20,7 +20,7 @@ public class Category
     private Long    id;
     private String  name;
 
-    @JsonManagedReference
+    @JsonManagedReference(value="category_products")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
     private List<Product> products;
 }

@@ -1,5 +1,6 @@
 package com.shop.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class OrderP
     private Date date;
     private boolean done = false;
 
+    @JsonBackReference(value="user_order")
     @ManyToOne
     private User user;
 
@@ -30,4 +32,10 @@ public class OrderP
             joinColumns         =@JoinColumn(name="order_id",referencedColumnName = "id"),
             inverseJoinColumns  =@JoinColumn(name="product_id",referencedColumnName="id"))
     private List<Product> products;
+
+    public void addProductToOrder(Product product, String email) {
+        if(email == user.getEmail()) {
+            products.add(product);
+        }
+    }
 }

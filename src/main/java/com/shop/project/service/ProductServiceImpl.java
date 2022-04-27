@@ -1,12 +1,13 @@
 package com.shop.project.service;
 
 import com.shop.project.domain.Product;
-import com.shop.project.exception.EntityNotFoundException;
+import com.shop.project.domain.ProductInfo;
+import com.shop.project.exceptions.EntityNotFoundException;
+import com.shop.project.exceptions.NotFoundException;
 import com.shop.project.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,8 +79,17 @@ public class ProductServiceImpl implements ProductService
         if (productRepository.existsById(product.getId())) {
             return productRepository.save(product);
         } else {
-            throw new EntityNotFoundException(String.format("There is no product with id=%s in the database!", product.getId().toString()));
+            throw new NotFoundException(String.format("There is no product with id=%s in the database!", product.getId().toString()));
         }
     }
+
+//    @Override
+//    public ProductInfo getInfo(Long id) {
+//        if (productRepository.existsById(product.getId())) {
+//            return productRepository.save(product);
+//        } else {
+//            throw new NotFoundException(String.format("There is no product with id=%s in the database!", product.getId().toString()));
+//        }
+//    }
 
 }

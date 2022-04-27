@@ -1,10 +1,11 @@
 package com.shop.project.domain;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 
 @Entity
 @Setter
@@ -17,8 +18,11 @@ public class ProductInfo
 
     @Lob
     private Byte[]  image;
+
+    @Max(200)
     private String  description;
 
+    @JsonManagedReference(value="product_info")
     @OneToOne
     private Product product;
 }

@@ -1,4 +1,4 @@
-package com.shop.project.exception;
+package com.shop.project.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {

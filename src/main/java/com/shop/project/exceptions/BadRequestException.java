@@ -1,4 +1,4 @@
-package com.shop.project.exception;
+package com.shop.project.exceptions;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

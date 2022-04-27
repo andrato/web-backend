@@ -12,4 +12,5 @@ public interface UserService
     void deleteById(Long id);
 
     public User findByEmail(String email);
+
 }

@@ -3,6 +3,7 @@ package com.shop.project.controller;
 import com.shop.project.domain.Animal;
 import com.shop.project.domain.Category;
 import com.shop.project.domain.Product;
+import com.shop.project.domain.ProductInfo;
 import com.shop.project.service.AnimalService;
 import com.shop.project.service.CategoryService;
 import com.shop.project.service.ImageService;
@@ -37,7 +38,7 @@ public class ProductController
     @Autowired
     AnimalService animalService;
 
-    private static final Logger log = LoggerFactory.getLogger(ProductController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -49,6 +50,13 @@ public class ProductController
     {
         List<Product> products = productService.findAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable Long id)
+    {
+        Product product = productService.findById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @DeleteMapping
@@ -74,14 +82,15 @@ public class ProductController
     }
 
     @GetMapping("/animal")
-    public ResponseEntity<List<Product>> listByAnimalId(@PathVariable String id)
+    public ResponseEntity<List<Product>> listByAnimalId(@RequestParam String id)
     {
+        logger.trace("sunt in listByAnimalId id = " + id + "\n");
         List<Product> products = productService.findByAnimalId(Long.valueOf(id));
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     @GetMapping("/category")
-    public ResponseEntity<List<Product>> listByCategoryId(@PathVariable String id)
+    public ResponseEntity<List<Product>> listByCategoryId(@RequestParam String id)
     {
         List<Product> products = productService.findByCategoryId(Long.valueOf(id));
         return new ResponseEntity<>(products, HttpStatus.OK);

@@ -4,6 +4,7 @@ import com.shop.project.domain.Category;
 import com.shop.project.domain.OrderP;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderPService
 {
@@ -12,4 +13,5 @@ public interface OrderPService
     OrderP save(OrderP order);
     OrderP update(OrderP order);
     void deleteById(Long id);
+    Optional<OrderP> getUnfinishOrder();
 }

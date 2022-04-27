@@ -1,6 +1,7 @@
 package com.shop.project.service;
 
 import com.shop.project.domain.User;
+import com.shop.project.exceptions.BadRequestException;
 import com.shop.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,6 +46,11 @@ public class UserServiceImpl implements UserService
     @Override
     public User save(User user)
     {
+        Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
+        if (userOptional.isPresent())
+        {
+            throw new BadRequestException("This email is already registered");
+        }
         user.setUsername(user.getEmail());
         User savedUser= userRepository.save(user);
         return savedUser;
